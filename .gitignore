@@ -1,0 +1,9 @@
+# Node Libraries
+/BlogApi/node_modules/
+/BlogWeb/node_modules/
+
+# Environments Variables
+*/.env
+
+# Rider
+*/.idea/
