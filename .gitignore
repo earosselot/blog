@@ -6,4 +6,4 @@
 */.env
 
 # Rider
-*/.idea/
+.idea/*
