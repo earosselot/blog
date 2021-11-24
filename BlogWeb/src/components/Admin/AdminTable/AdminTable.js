@@ -34,7 +34,7 @@ import {
   stableSort,
 } from '../../../utils/adminTableOrder';
 
-function AdminTable({posts}) {
+function AdminTable({posts, api}) {
   const [order, setOrder] = useState('asc');
   const [orderBy, setOrderBy] = useState('createdAt');
   const [page, setPage] = useState(0);
@@ -62,29 +62,18 @@ function AdminTable({posts}) {
   }
 
   async function handleChangePublished(event) {
-    const post = posts.filter((post) => post._id === event.target.id);
-    posts.map((post) => {
-      if (post._id === event.target.id) {
-        post.published = !post.published;
-      }
-    });
-    // setPosts();
+    const id = event.currentTarget.id;
+    const post = posts.find((post) => post._id === event.target.id);
+    const newPost = {
+      ...post,
+      published: !post.published,
+    }
+    await api.edit(id, newPost);
+  }
 
-    const data = {
-      title: post[0].title,
-      text: post[0].text,
-      createdAt: post[0].createdAt,
-      published: event.target.checked,
-    };
-
-    console.log(posts);
-    // await fetch(`http://localhost:5000/api/post/${event.target.id}`, {
-    //   method: 'PUT',
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //   },
-    //   body: JSON.stringify(data),
-    // });
+  async function handleDeletePost(event) {
+    const id = event.currentTarget.id;
+    api.remove(id);
   }
 
   // Avoid layout jump when reaching last page with empty rows.
@@ -129,7 +118,11 @@ function AdminTable({posts}) {
                         </IconButton>
                       </TableCell>
                       <TableCell>
-                        <IconButton aria-label="delete" >
+                        <IconButton
+                          id={post._id}
+                          aria-label="delete"
+                          onClick={handleDeletePost}
+                        >
                           <DeleteIcon />
                         </IconButton>
                       </TableCell>
