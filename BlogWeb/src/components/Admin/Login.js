@@ -1,24 +1,32 @@
 import { useState } from 'react';
 import Axios from 'axios';
 
-function Login({ setUser }) {
-  const [uname, setUname] = useState('');
-  const [pw, setPw] = useState('');
+function Login({ setUser, userApi }) {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
 
   async function handleLogin() {
-    const res = await Axios({
-      method: 'POST',
-      data: {
-        username: uname,
-        password: pw,
-      },
-      withCredentials: true,
-      url: 'http://localhost:5000/api/user/login',
-    });
-    if (res.status === 200) {
-      setUser(res.data.user);
-    }
-    console.log(res);
+    // const res = await Axios({
+    //   method: 'POST',
+    //   data: {
+    //     username: username,
+    //     password: password,
+    //   },
+    //   withCredentials: true,
+    //   url: 'http://localhost:5000/api/user/login',
+    // });
+    // if (res.status === 200) {
+    //   localStorage.setItem('user', JSON.stringify(res.data.user));
+    //   setUser(res.data.user);
+    // }
+    // console.log(res);
+
+    const loginData = {
+      username: username,
+      password: password,
+    };
+
+    userApi.login(loginData);
   }
 
   let isAuth = 'No';
@@ -39,16 +47,16 @@ function Login({ setUser }) {
         <input
           type="text"
           id="uname"
-          value={uname}
-          onChange={(e) => setUname(e.target.value)}
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
         />
         <br />
         <label htmlFor="password">Password: </label>
         <input
           type="password"
           id="pw"
-          value={pw}
-          onChange={(e) => setPw(e.target.value)}
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
         />
         <br />
         <button type="button" onClick={handleLogin}>

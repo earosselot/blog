@@ -1,4 +1,6 @@
 import {useState} from 'react';
+import Axios from 'axios';
+
 import { extractObjectProperties, insertObjectProperties} from './objectPropertiesCache';
 
 
@@ -69,11 +71,65 @@ function useApi(baseUrl, queryString = '') {
     setIsQuerying(false);
   }
 
+  const login = async (loginData) => {
+    setIsQuerying(true);
+    const res = await Axios({
+      method: 'POST',
+      data: loginData,
+      withCredentials: true,
+      url: `${baseUrl}/login`,
+    });
+    if (res.status === 200) {
+      setData(res.data.user);
+    }
+    setIsQuerying(false);
+  }
+
+  const me = async () => {
+    setIsQuerying(true);
+    try {
+      const res = await Axios({
+        method: 'GET',
+        withCredentials: true,
+        url: `${baseUrl}/me`,
+      });
+      if (res.status === 200) {
+        setData(res);
+      } else {
+        setData([]);
+      }
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setIsQuerying(false);
+    }
+  }
+
+  const logout = async () => {
+    setIsQuerying(true);
+    try {
+      const res = await Axios({
+        method: 'GET',
+        withCredentials: true,
+        url: `${baseUrl}/logout`,
+      });
+      setData([]);
+      document.cookie = 'connect.sid= ; expires = Thu, 01 Jan 1970 00:00:01 GMT'
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setIsQuerying(false);
+    }
+  }
+
   const api = {
     list,
     add,
     edit,
     remove,
+    login,
+    me,
+    logout,
   }
 
   return [data, isQuerying, api];

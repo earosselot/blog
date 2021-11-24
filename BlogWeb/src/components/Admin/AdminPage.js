@@ -2,10 +2,10 @@ import AdminHeader from './AdminHeader';
 import AdminMain from './AdminMain';
 import AdminFooter from './AdminFooter';
 
-function AdminPage() {
+function AdminPage({ userApi }) {
   return (
     <div>
-      <AdminHeader />
+      <AdminHeader userApi={userApi} />
       <AdminMain />
       <AdminFooter />
     </div>
