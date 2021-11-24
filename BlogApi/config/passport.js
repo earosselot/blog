@@ -22,6 +22,7 @@ function strategy(passport) {
   passport.serializeUser((user, cb) => {
     cb(null, user._id);
   });
+
   passport.deserializeUser(async (id, cb) => {
     try {
       const user = await User.findById(id);

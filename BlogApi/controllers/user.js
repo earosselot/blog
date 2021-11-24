@@ -18,6 +18,17 @@ async function userGet(req, res, next) {
   }
 }
 
+async function myInfoGet(req, res, next) {
+  try {
+    if (req.user) {
+      res.json(req.user);
+    }
+    res.send();
+  } catch (e) {
+    next(e);
+  }
+}
+
 // TODO: este endpoint parece medio inutil e inseguro...
 async function usersGet(req, res, next) {
   try {
@@ -175,6 +186,7 @@ async function userDelete(req, res, next) {
 
 export default {
   userGet,
+  myInfoGet,
   usersGet,
   userLogout,
   userPost,

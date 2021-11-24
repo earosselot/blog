@@ -5,15 +5,17 @@ import { isAuth, isAdmin } from '../utils/authentication.js';
 
 const router = Router();
 
-router.get('/', isAuth, userController.usersGet);
+router.get('/me', isAuth, userController.myInfoGet);
+
+router.get('/', userController.usersGet);
 
 router.get('/logout', isAuth, userController.userLogout);
 
 router.get('/:userId', userController.userGet);
 
-router.post('/', userController.userPost);
-
 router.post('/login', userController.userLogin);
+
+router.post('/', userController.userPost);
 
 router.put('/', isAuth, userController.userPut);
 

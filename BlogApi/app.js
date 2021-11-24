@@ -75,12 +75,6 @@ strategy(passport);
 /**
  * ------------------ ROUTES -------------------
  */
-app.get('/api', (req, res) => {
-  res.json({
-    message: 'Welcome to the blog API',
-  });
-});
-
 app.use('/api/user', routes.user);
 app.use('/api/post', routes.post);
 app.use('/api/post', routes.comment);
