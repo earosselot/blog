@@ -57,18 +57,25 @@ function useApi(baseUrl, queryString = '') {
   }
 
   const remove = async (id) => {
-    setIsQuerying(true);
-    await fetch(`${baseUrl}/${id}`, {
-      method: 'DELETE',
-    });
-    const copy = [...data];
-    // TODO: agregar una confirmacion para eliminar.
-    // TODO: los eliminados no se actualizan en el front (si en el server y despues de actualizar)
-    console.log(copy);
-    copy.slice(data.findIndex((item) => item._id === id), 1);
-    console.log(copy);
-    setData(copy);
-    setIsQuerying(false);
+    const deleteOk = window.confirm('really delete?');
+    if (deleteOk) {
+      setIsQuerying(true);
+      try {
+        await Axios({
+          method: 'DELETE',
+          withCredentials: true,
+          url: `${baseUrl}/${id}`,
+        });
+        const copy = [...data];
+        const deleteItemIndex = copy.findIndex((item) => item._id === id);
+        copy.splice(deleteItemIndex, 1);
+        setData(copy);
+      } catch (e) {
+        console.log(e.message);
+      } finally {
+        setIsQuerying(false);
+      }
+    }
   }
 
   const login = async (loginData) => {
