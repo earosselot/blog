@@ -13,6 +13,6 @@ router.post('/', isAuth, postController.postPost);
 
 router.put('/:postId', postController.postPut);
 
-router.delete('/:postId', postController.postDelete);
+router.delete('/:postId', isAuth, postController.postDelete);
 
 export default router;

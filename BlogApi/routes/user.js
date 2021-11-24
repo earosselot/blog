@@ -7,11 +7,11 @@ const router = Router();
 
 router.get('/me', isAuth, userController.myInfoGet);
 
-router.get('/', userController.usersGet);
+router.get('/', isAuth, userController.usersGet);
 
 router.get('/logout', isAuth, userController.userLogout);
 
-router.get('/:userId', userController.userGet);
+router.get('/:userId', isAuth, userController.userGet);
 
 router.post('/login', userController.userLogin);
 
