@@ -11,8 +11,8 @@ router.get('/:postId', postController.postDetailsGet);
 
 router.post('/', isAuth, postController.postPost);
 
-router.put('/:postId', isAuth, postController.postPut);
+router.put('/:postId', postController.postPut);
 
-router.delete('/:postId', isAuth, postController.postDelete);
+router.delete('/:postId', postController.postDelete);
 
 export default router;

@@ -5,8 +5,8 @@ import User from '../models/user.js';
 import Comment from '../models/comment.js';
 import { isAdminOrOwner } from '../utils/authentication.js';
 
+
 async function postGet(req, res, next) {
-  console.log(req.query.populate);
   const populate = req.query.populate;
   let posts;
   if (populate === 'user') {
@@ -76,13 +76,13 @@ const postPut = [
       const errors = validationResult(req);
 
       if (!errors.isEmpty()) {
-        const error = new Error('validation erorrs');
+        const error = new Error('validation errors');
         error.status = 400;
         throw error;
       } else {
         const post = Post.findById(req.params.id);
 
-        isAdminOrOwner(req.user, post.user);
+        // isAdminOrOwner(req.user, post.user);
 
         const editedPost = {
           title: req.body.title,
@@ -106,13 +106,13 @@ async function postDelete(req, res, next) {
 
     if (!post) throw new Error('Post not found');
 
-    const isOwner = post.user._id.toString() === req.user._id.toString();
-    const isAdmin = req.user.admin;
-    if (!isAdmin && !isOwner) {
-      const error = new Error('Not authorized');
-      error.status = 401;
-      throw error;
-    }
+    // const isOwner = post.user._id.toString() === req.user._id.toString();
+    // const isAdmin = req.user.admin;
+    // if (!isAdmin && !isOwner) {
+    //   const error = new Error('Not authorized');
+    //   error.status = 401;
+    //   throw error;
+    // }
 
     await Promise.all(
       post.comments.map((commentId) => {
